@@ -40,18 +40,11 @@ export function Nav({ variant = "light" }: { variant?: "light" | "dark" }) {
       >
         <div className="container-apex flex h-16 md:h-20 items-center justify-between">
           <Link href="/" className="flex items-center gap-3 group" aria-label={siteConfig.name}>
-            <BrandMark size={32} invert={scrolled || onDark} className="md:!h-9" />
-            <span className={cn(
-              "hidden sm:flex flex-col leading-none",
-              (scrolled || onDark) ? "text-bone" : "text-onyx",
-            )}>
-              <span className="font-display text-lg md:text-xl tracking-tight">Apex-Line</span>
-              <span className="text-[10px] uppercase tracking-[0.24em] opacity-70">Studios</span>
-            </span>
-            <span className={cn(
-              "sm:hidden font-display text-lg tracking-tight",
-              (scrolled || onDark) ? "text-bone" : "text-onyx",
-            )}>Apex-Line</span>
+            <BrandMark
+              size={40}
+              invert={scrolled || onDark}
+              className="md:!h-12"
+            />
           </Link>
 
           <nav className={cn(
@@ -101,8 +94,7 @@ export function Nav({ variant = "light" }: { variant?: "light" | "dark" }) {
           >
             <div className="flex h-16 items-center justify-between px-6">
               <Link href="/" onClick={() => setOpen(false)} className="flex items-center gap-2">
-                <BrandMark size={32} invert />
-                <span className="font-display text-lg">Apex-Line</span>
+                <BrandMark size={40} invert />
               </Link>
               <button aria-label="Close menu" onClick={() => setOpen(false)} className="p-2 -mr-2">
                 <X className="h-6 w-6" />

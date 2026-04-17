@@ -1,10 +1,10 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import { AlertCircle, LogIn } from "lucide-react";
 import { signInAdmin } from "@/lib/admin/client";
 import { Input, Label } from "@/components/forms/Field";
+import { BrandMark } from "@/components/site/BrandMark";
 
 export default function AdminLogin() {
   const router = useRouter();
@@ -25,12 +25,9 @@ export default function AdminLogin() {
   return (
     <main className="min-h-[100svh] bg-onyx text-bone flex items-center justify-center px-6 py-12">
       <div className="w-full max-w-md">
-        <div className="flex items-center justify-center gap-3 mb-10">
-          <Image src="/brand/logo.png" alt="" width={48} height={48} className="h-12 w-auto" />
-          <div className="text-left">
-            <p className="font-display text-2xl leading-none">Apex-Line</p>
-            <p className="text-[10px] uppercase tracking-[0.26em] text-gold">Studio Admin</p>
-          </div>
+        <div className="flex flex-col items-center justify-center mb-10 gap-3">
+          <BrandMark size={56} invert />
+          <p className="text-[10px] uppercase tracking-[0.26em] text-gold">Studio Admin</p>
         </div>
         <div className="border border-white/10 bg-graphite p-8 md:p-10">
           <p className="eyebrow mb-3">Sign in</p>

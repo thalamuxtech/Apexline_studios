@@ -9,13 +9,11 @@ export function Footer() {
       <div className="absolute inset-0 blueprint-grid opacity-40" aria-hidden />
       <div className="container-apex relative py-16 md:py-24 grid gap-12 md:gap-16 md:grid-cols-12">
         <div className="md:col-span-5 space-y-6">
-          <div className="flex items-center gap-4">
-            <BrandMark size={40} invert />
-            <div>
-              <p className="font-display text-2xl leading-none">Apex-Line</p>
-              <p className="text-[10px] uppercase tracking-[0.26em] opacity-70">Studios</p>
-            </div>
-          </div>
+          <BrandMark size={64} invert />
+          <p className="text-bone/50 text-sm max-w-md leading-relaxed">
+            Architecture, construction and interior design practice shaping
+            Nigeria&rsquo;s skyline — {siteConfig.founded} to date.
+          </p>
           <p className="text-stone font-editorial text-xl md:text-2xl italic leading-snug max-w-md">
             {siteConfig.tagline}
           </p>

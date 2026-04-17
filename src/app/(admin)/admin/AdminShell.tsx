@@ -1,10 +1,10 @@
 "use client";
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { LayoutDashboard, Inbox, FolderKanban, Briefcase, Users, Settings, LogOut, Loader2, ShieldOff } from "lucide-react";
 import { listenAdmin, signOutAdmin, type AdminState } from "@/lib/admin/client";
+import { BrandMark } from "@/components/site/BrandMark";
 
 const NAV = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
@@ -69,11 +69,8 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
       <div className="lg:flex">
         <aside className="lg:sticky lg:top-0 lg:h-screen lg:w-64 lg:shrink-0 border-b lg:border-b-0 lg:border-r border-onyx/10 bg-graphite text-bone flex lg:flex-col">
           <div className="flex items-center gap-3 px-6 py-5 border-b border-white/10 flex-1 lg:flex-none">
-            <Image src="/brand/logo.png" alt="" width={32} height={32} className="h-8 w-auto" />
-            <div>
-              <p className="font-display text-lg leading-none">Apex-Line</p>
-              <p className="text-[10px] uppercase tracking-[0.24em] text-gold">Admin</p>
-            </div>
+            <BrandMark size={36} invert />
+            <p className="text-[10px] uppercase tracking-[0.24em] text-gold self-end pb-1">Admin</p>
           </div>
           <nav className="p-3 flex lg:flex-col gap-1 overflow-x-auto lg:overflow-visible">
             {NAV.map((item) => (
