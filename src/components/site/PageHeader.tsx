@@ -4,7 +4,7 @@ export function PageHeader({
   eyebrow, title, lead, align = "left",
 }: { eyebrow?: string; title: string; lead?: string; align?: "left" | "center" }) {
   return (
-    <header className="relative bg-onyx text-bone overflow-hidden pt-36 pb-20 md:pt-44 md:pb-28">
+    <header className="relative bg-onyx text-bone overflow-hidden pt-44 pb-20 md:pt-56 md:pb-28">
       <div className="absolute inset-0 blueprint-grid opacity-20" />
       <div className="container-apex relative">
         <div className={align === "center" ? "max-w-3xl mx-auto text-center" : "max-w-4xl"}>

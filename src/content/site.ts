@@ -15,6 +15,7 @@ export const siteConfig = {
     hours: "Mon-Fri  09:00 - 18:00 WAT",
   },
   social: {
+    facebook: "https://www.facebook.com/sumaila.onimisi",
     instagram: "https://instagram.com/apexlinestudios",
     linkedin: "https://linkedin.com/company/apexlinestudios",
     behance: "https://behance.net/apexlinestudios",

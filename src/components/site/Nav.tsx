@@ -35,15 +35,23 @@ export function Nav({ variant = "light" }: { variant?: "light" | "dark" }) {
             ? "bg-onyx/85 backdrop-blur-xl border-b border-white/10"
             : onDark
               ? "bg-transparent"
-              : "bg-bone/80 backdrop-blur-md border-b border-onyx/5",
+              : "bg-bone/85 backdrop-blur-md border-b border-onyx/5",
         )}
       >
-        <div className="container-apex flex h-16 md:h-20 items-center justify-between">
-          <Link href="/" className="flex items-center gap-3 group" aria-label={siteConfig.name}>
+        <div
+          className={cn(
+            "container-apex flex items-center justify-between transition-[height] duration-500 ease-apex",
+            scrolled ? "h-16 md:h-20" : "h-24 md:h-32",
+          )}
+        >
+          <Link href="/" className="flex items-center group" aria-label={siteConfig.name}>
             <BrandMark
-              size={40}
+              size={scrolled ? 36 : 64}
               invert={scrolled || onDark}
-              className="md:!h-12"
+              className={cn(
+                "transition-[height] duration-500 ease-apex",
+                scrolled ? "md:!h-10" : "md:!h-20",
+              )}
             />
           </Link>
 

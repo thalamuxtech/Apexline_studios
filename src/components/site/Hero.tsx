@@ -51,7 +51,7 @@ export function Hero() {
       <div className="pointer-events-none absolute inset-y-0 left-6 md:left-10 w-px bg-gradient-to-b from-transparent via-gold/40 to-transparent" />
       <div className="pointer-events-none absolute inset-y-0 right-6 md:right-10 w-px bg-gradient-to-b from-transparent via-gold/40 to-transparent" />
 
-      <div className="relative container-apex flex min-h-[100svh] flex-col justify-between pt-28 md:pt-32 pb-10 md:pb-14">
+      <div className="relative container-apex flex min-h-[100svh] flex-col justify-between pt-36 md:pt-44 pb-10 md:pb-14">
         {/* Top eyebrow */}
         <div className="flex items-center justify-between gap-6">
           <motion.p
