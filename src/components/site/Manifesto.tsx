@@ -51,14 +51,13 @@ export function Manifesto() {
           <div className="md:col-span-7 md:pl-6 lg:pl-10 space-y-7">
             <Reveal>
               <h2 className="font-display text-4xl md:text-6xl leading-[1.02] text-balance">
-                Architecture that <em className="font-editorial italic text-gold">earns the ground</em> it stands on.
+                Lagos&rsquo; most <em className="font-editorial italic text-gold">trusted</em> practice — building to a standard that earns the ground it stands on.
               </h2>
             </Reveal>
 
             <Reveal delay={0.05}>
               <p className="text-onyx/80 text-lg md:text-xl leading-relaxed font-light max-w-2xl">
-                Apex-Line Studios is a Lagos multi-disciplinary practice led by
-                <span className="text-onyx"> Arc. Sumaila Onimisi Yusuf</span> — delivering architecture, construction, interior and exterior design for institutional, commercial and residential clients across Nigeria.
+                Apex-Line Studios is a multi-disciplinary architecture, construction and interior design practice led by <span className="text-onyx">Arc. Sumaila Onimisi Yusuf</span> — the studio institutional clients call when the brief must not fail.
               </p>
             </Reveal>
 
@@ -70,7 +69,7 @@ export function Manifesto() {
 
             <Reveal delay={0.15}>
               <p className="text-onyx/70 text-base md:text-lg leading-relaxed max-w-2xl">
-                From remodelling Access Bank&rsquo;s Victoria Island annex, to Shell&rsquo;s sixteen-floor Marina rebuild and estate-scale housing at Twin Lakes — our portfolio is a record of disciplined delivery: on time, to standard, in service of the client&rsquo;s long view.
+                From Access Bank&rsquo;s Victoria Island annex, to Shell&rsquo;s sixteen-floor Marina rebuild, to estate-scale housing at Twin Lakes — our portfolio is not a catalogue of projects. It is a fifteen-year record of delivery on time, to international standard, without compromise.
               </p>
             </Reveal>
 

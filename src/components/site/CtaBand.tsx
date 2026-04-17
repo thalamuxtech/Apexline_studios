@@ -12,8 +12,13 @@ export function CtaBand() {
             <Reveal><p className="eyebrow mb-4">Begin a Conversation</p></Reveal>
             <Reveal delay={0.1}>
               <h2 className="font-display text-4xl md:text-6xl leading-tight">
-                Have a site, a vision, or a brief? <em className="font-editorial italic text-gold">Let&rsquo;s build something that lasts.</em>
+                When the brief must not fail, the studio you want is the one <em className="font-editorial italic text-gold">Lagos already trusts</em>.
               </h2>
+            </Reveal>
+            <Reveal delay={0.2}>
+              <p className="mt-6 text-bone/70 text-lg max-w-2xl leading-relaxed">
+                Fifteen years. One hundred and fifty buildings. A single uncompromising standard — delivered on time, without drama.
+              </p>
             </Reveal>
           </div>
           <div className="md:col-span-4 flex flex-col gap-3">

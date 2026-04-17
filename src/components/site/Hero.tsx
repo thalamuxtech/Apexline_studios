@@ -98,8 +98,7 @@ export function Hero() {
               initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.8 }}
               className="mt-8 md:mt-10 max-w-xl text-base md:text-lg text-bone/80 leading-relaxed font-light"
             >
-              A Lagos-based architecture, construction and interior design practice shaping Nigeria&rsquo;s skyline with
-              over fifteen years of disciplined craft.
+              The Lagos studio trusted by Shell, Chevron, Access Bank and a generation of private clients — delivering architecture, construction and interior design at a standard the city has come to expect from us, for over fifteen years.
             </motion.p>
 
             <motion.div

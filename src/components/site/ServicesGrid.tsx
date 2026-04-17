@@ -14,17 +14,17 @@ export function ServicesGrid({ compact = false }: { compact?: boolean }) {
       <div className="container-apex">
         <div className="grid md:grid-cols-12 gap-8 mb-12 md:mb-16">
           <div className="md:col-span-5">
-            <Reveal><p className="eyebrow mb-4">What we do</p></Reveal>
+            <Reveal><p className="eyebrow mb-4">Services · Built to a Higher Standard</p></Reveal>
             <Reveal delay={0.1}>
               <h2 className="font-display text-4xl md:text-5xl leading-tight text-balance">
-                A single studio, <em className="font-editorial text-gold">end-to-end</em> delivery.
+                A single studio. <em className="font-editorial text-gold">One uncompromising standard</em> — end to end.
               </h2>
             </Reveal>
           </div>
           <div className="md:col-span-6 md:col-start-7 pt-2">
             <Reveal delay={0.15}>
               <p className="text-lg text-stone leading-relaxed">
-                Architecture, construction and interior disciplines housed under one roof — so every decision, from the first sketch to the last tile, is made by the same hands that signed the brief.
+                Architecture, construction and interior disciplines housed under one roof — so every decision, from the first sketch to the last tile, is made by the same principals who signed the brief. It is the reason institutional clients return to us, year after year.
               </p>
             </Reveal>
           </div>

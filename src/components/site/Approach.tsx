@@ -11,7 +11,7 @@ const PILLARS = [
     title: "Design",
     eyebrow: "01",
     icon: Compass,
-    body: "Sketch-led, site-aware design that resolves form, material and experience at every scale — residential to civic.",
+    body: "Sketch-led, site-aware architecture trusted by banks, multinationals and developers across Lagos. The idea is never negotiable — only improved.",
     image: "/projects/marion-apartment/02.jpg",
   },
   {
@@ -19,7 +19,7 @@ const PILLARS = [
     title: "Craft",
     eyebrow: "02",
     icon: Ruler,
-    body: "Detail drawings honoured on site. Tolerances held. Finishes specified and verified to international standards.",
+    body: "Every tolerance held, every finish specified and verified to international standards. The kind of craft that earned us Shell's sixteen-floor Marina programme.",
     image: "/projects/shell-fmh-upgrade/08.jpg",
   },
   {
@@ -27,7 +27,7 @@ const PILLARS = [
     title: "Delivery",
     eyebrow: "03",
     icon: Hammer,
-    body: "Direct site leadership keeps schedule, cost, safety and quality aligned — day by day, trade by trade.",
+    body: "A principal on site, every day. Schedule, cost, safety and quality aligned trade by trade — which is why our projects finish on time, every time.",
     image: "/projects/chevron-housing/02.jpg",
   },
   {
@@ -35,7 +35,7 @@ const PILLARS = [
     title: "Care",
     eyebrow: "04",
     icon: ShieldCheck,
-    body: "Commissioning, snagging and aftercare until every room, system and surface performs as the drawings promised.",
+    body: "Commissioning, snagging and aftercare until every room, system and surface performs as promised. Excellence is only real once the client agrees it is.",
     image: "/projects/ed-marina/01.jpg",
   },
 ];
@@ -49,17 +49,17 @@ export function Approach() {
       <div className="container-apex">
         <div className="grid gap-10 md:grid-cols-12 mb-12 md:mb-16">
           <div className="md:col-span-5">
-            <Reveal><p className="eyebrow mb-4">Our Approach</p></Reveal>
+            <Reveal><p className="eyebrow mb-4">Our Approach · The Apex Standard</p></Reveal>
             <Reveal delay={0.1}>
               <h2 className="font-display text-4xl md:text-5xl leading-[1.05] text-balance">
-                Four disciplines, <em className="font-editorial italic text-gold">one studio</em>.
+                Four pillars. <em className="font-editorial italic text-gold">One uncompromising standard</em>.
               </h2>
             </Reveal>
           </div>
           <div className="md:col-span-6 md:col-start-7 pt-1">
             <Reveal delay={0.2}>
               <p className="text-stone text-lg leading-relaxed">
-                Design, craft, delivery and care — carried end to end by the same hands that signed the brief. Hover or tap each pillar to see it at work.
+                Design, craft, delivery and care — carried end-to-end by the same hands that sign the brief. It is how a Lagos studio earns the trust of Shell, Chevron, Access Bank and the private clients who build the city around them.
               </p>
             </Reveal>
           </div>

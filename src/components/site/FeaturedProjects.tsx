@@ -27,10 +27,10 @@ export function FeaturedProjects() {
         {/* Header */}
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-12 md:mb-16">
           <div className="max-w-3xl">
-            <Reveal><p className="eyebrow mb-4">Selected Work · 2019 — 2025</p></Reveal>
+            <Reveal><p className="eyebrow mb-4">Selected Work · 150+ Projects · 2009 — 2025</p></Reveal>
             <Reveal delay={0.1}>
               <h2 className="font-display text-4xl md:text-6xl leading-[1.05] text-balance">
-                Buildings that <em className="font-editorial italic text-gold">speak quietly</em>, and stand decisively.
+                A portfolio trusted by <em className="font-editorial italic text-gold">Shell, Chevron, Access Bank</em> — and the clients building Lagos around them.
               </h2>
             </Reveal>
           </div>

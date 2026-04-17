@@ -77,12 +77,12 @@ export const services = [
 ];
 
 export const processSteps = [
-  { number: "01", title: "Discover", body: "We listen, survey, and interrogate the brief until the site's constraints and the client's ambition align." },
-  { number: "02", title: "Concept", body: "Sketch-led explorations define a clear architectural idea that will anchor every downstream decision." },
-  { number: "03", title: "Design", body: "Schematic and detailed design resolves form, material and experience at every scale." },
-  { number: "04", title: "Document", body: "Construction-ready drawings, specifications and BIM models coordinate all consultants." },
-  { number: "05", title: "Build", body: "Direct site leadership ensures craft, safety, schedule and cost are held to standard daily." },
-  { number: "06", title: "Handover", body: "Commissioning, snagging and aftercare until the building performs exactly as designed." },
+  { number: "01", title: "Discover", body: "We interrogate the brief the way only fifteen years on Lagos sites teaches you to — surfacing constraints most firms only discover on the way up." },
+  { number: "02", title: "Concept", body: "A clear architectural idea emerges — one that will still feel inevitable on the day the building is handed over, not just the day it is drawn." },
+  { number: "03", title: "Design", body: "Schematic and detailed design resolves form, material and experience at every scale — to the standard blue-chip clients like Shell and Chevron have already endorsed." },
+  { number: "04", title: "Document", body: "Construction-ready drawings, specifications and BIM models coordinate every consultant — so the building you sign off on paper is the building that gets built." },
+  { number: "05", title: "Build", body: "Direct site leadership by a principal, every day. Craft, safety, schedule and cost held to standard — the reason our projects finish on time, without drama." },
+  { number: "06", title: "Handover", body: "Commissioning, snagging and aftercare until every system, surface and room performs exactly as the drawings promised. Excellence, verified." },
 ];
 
 export const stats = [

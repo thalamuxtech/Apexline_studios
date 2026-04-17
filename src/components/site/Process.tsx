@@ -8,17 +8,22 @@ export function Process() {
       <div className="container-apex relative">
         <div className="grid md:grid-cols-12 gap-10 md:gap-16 mb-14">
           <div className="md:col-span-5">
-            <Reveal><p className="eyebrow mb-4">Our Method</p></Reveal>
+            <Reveal><p className="eyebrow mb-4">Our Method · Why Excellence Stands</p></Reveal>
             <Reveal delay={0.1}>
               <h2 className="font-display text-4xl md:text-5xl leading-tight">
-                Six disciplined steps from <em className="font-editorial text-gold">brief to handover</em>.
+                Six unwavering standards the studio is <em className="font-editorial text-gold">known for</em>.
               </h2>
             </Reveal>
           </div>
-          <div className="md:col-span-6 md:col-start-7 pt-1">
+          <div className="md:col-span-6 md:col-start-7 pt-1 space-y-5">
             <Reveal delay={0.2}>
-              <p className="text-bone/70 text-lg leading-relaxed">
-                Nothing we deliver is improvised on site. Every phase has a deliverable, a sign-off and an owner — which is why our projects complete on time, to standard, and without drama.
+              <p className="text-bone/80 text-lg leading-relaxed">
+                Excellence, for us, is not a claim — it is a method. Every phase has a deliverable, a sign-off and a principal personally accountable for it. It is the reason clients from Shell to Access Bank return, and the reason our projects finish on time, to international standard, without drama.
+              </p>
+            </Reveal>
+            <Reveal delay={0.3}>
+              <p className="font-editorial italic text-gold text-xl md:text-2xl leading-snug">
+                Fifteen years. One hundred and fifty buildings. A single standard.
               </p>
             </Reveal>
           </div>
