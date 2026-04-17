@@ -1,11 +1,11 @@
 "use client";
 import Link from "next/link";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { navLinks, siteConfig } from "@/content/site";
+import { BrandMark } from "./BrandMark";
 
 export function Nav({ variant = "light" }: { variant?: "light" | "dark" }) {
   const [scrolled, setScrolled] = useState(false);
@@ -23,26 +23,41 @@ export function Nav({ variant = "light" }: { variant?: "light" | "dark" }) {
     return () => { document.body.style.overflow = ""; };
   }, [open]);
 
+  // onDark = visually over a dark hero AND not yet scrolled.
   const onDark = variant === "dark" && !scrolled;
+
   return (
     <>
       <header
         className={cn(
           "fixed inset-x-0 top-0 z-50 transition-all duration-500 ease-apex",
-          scrolled ? "bg-onyx/80 backdrop-blur-xl border-b border-white/5" : onDark ? "bg-transparent" : "bg-bone/80 backdrop-blur-md",
+          scrolled
+            ? "bg-onyx/85 backdrop-blur-xl border-b border-white/10"
+            : onDark
+              ? "bg-transparent"
+              : "bg-bone/80 backdrop-blur-md border-b border-onyx/5",
         )}
       >
         <div className="container-apex flex h-16 md:h-20 items-center justify-between">
           <Link href="/" className="flex items-center gap-3 group" aria-label={siteConfig.name}>
-            <Image src="/brand/logo.png" alt="Apex-Line Studios" width={42} height={42} className="h-9 w-auto md:h-10" priority />
-            <span className={cn("hidden sm:flex flex-col leading-none", (scrolled || !onDark) ? "text-onyx" : "text-bone")}>
+            <BrandMark size={32} invert={scrolled || onDark} className="md:!h-9" />
+            <span className={cn(
+              "hidden sm:flex flex-col leading-none",
+              (scrolled || onDark) ? "text-bone" : "text-onyx",
+            )}>
               <span className="font-display text-lg md:text-xl tracking-tight">Apex-Line</span>
               <span className="text-[10px] uppercase tracking-[0.24em] opacity-70">Studios</span>
             </span>
-            <span className={cn("sm:hidden font-display text-lg tracking-tight", (scrolled || !onDark) ? "text-onyx" : "text-bone")}>Apex-Line</span>
+            <span className={cn(
+              "sm:hidden font-display text-lg tracking-tight",
+              (scrolled || onDark) ? "text-bone" : "text-onyx",
+            )}>Apex-Line</span>
           </Link>
 
-          <nav className={cn("hidden md:flex items-center gap-8 lg:gap-10", (scrolled || !onDark) ? "text-onyx" : "text-bone")}>
+          <nav className={cn(
+            "hidden md:flex items-center gap-8 lg:gap-10",
+            (scrolled || onDark) ? "text-bone" : "text-onyx",
+          )}>
             {navLinks.map((l) => (
               <Link key={l.href} href={l.href} className="text-[13px] uppercase tracking-[0.18em] font-medium link-underline">
                 {l.label}
@@ -51,7 +66,15 @@ export function Nav({ variant = "light" }: { variant?: "light" | "dark" }) {
           </nav>
 
           <div className="hidden md:block">
-            <Link href="/request-a-quote" className={cn("btn border", (scrolled || !onDark) ? "border-onyx/80 text-onyx hover:bg-onyx hover:text-bone" : "border-gold/60 text-bone hover:bg-gold hover:text-onyx")}>
+            <Link
+              href="/request-a-quote"
+              className={cn(
+                "btn border",
+                (scrolled || onDark)
+                  ? "border-gold/70 text-bone hover:bg-gold hover:text-onyx"
+                  : "border-onyx/80 text-onyx hover:bg-onyx hover:text-bone",
+              )}
+            >
               Start a Project
             </Link>
           </div>
@@ -60,7 +83,10 @@ export function Nav({ variant = "light" }: { variant?: "light" | "dark" }) {
             type="button"
             aria-label="Open menu"
             onClick={() => setOpen(true)}
-            className={cn("md:hidden p-2 -mr-2", (scrolled || !onDark) ? "text-onyx" : "text-bone")}
+            className={cn(
+              "md:hidden p-2 -mr-2",
+              (scrolled || onDark) ? "text-bone" : "text-onyx",
+            )}
           >
             <Menu className="h-6 w-6" />
           </button>
@@ -70,14 +96,12 @@ export function Nav({ variant = "light" }: { variant?: "light" | "dark" }) {
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             className="fixed inset-0 z-[70] bg-onyx text-bone md:hidden"
           >
             <div className="flex h-16 items-center justify-between px-6">
               <Link href="/" onClick={() => setOpen(false)} className="flex items-center gap-2">
-                <Image src="/brand/logo.png" alt="" width={36} height={36} className="h-9 w-auto" />
+                <BrandMark size={32} invert />
                 <span className="font-display text-lg">Apex-Line</span>
               </Link>
               <button aria-label="Close menu" onClick={() => setOpen(false)} className="p-2 -mr-2">
@@ -90,10 +114,7 @@ export function Nav({ variant = "light" }: { variant?: "light" | "dark" }) {
               className="flex flex-col px-6 pt-8 pb-10 gap-2"
             >
               {navLinks.map((l) => (
-                <motion.div
-                  key={l.href}
-                  variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } }}
-                >
+                <motion.div key={l.href} variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } }}>
                   <Link
                     href={l.href}
                     onClick={() => setOpen(false)}

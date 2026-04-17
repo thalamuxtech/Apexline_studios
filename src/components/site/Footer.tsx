@@ -1,7 +1,7 @@
 import Link from "next/link";
-import Image from "next/image";
-import { Instagram, Linkedin, Mail, MapPin, Phone } from "lucide-react";
+import { Instagram, Linkedin, Lock, Mail, MapPin, Phone } from "lucide-react";
 import { siteConfig, navLinks } from "@/content/site";
+import { BrandMark } from "./BrandMark";
 
 export function Footer() {
   return (
@@ -9,8 +9,8 @@ export function Footer() {
       <div className="absolute inset-0 blueprint-grid opacity-40" aria-hidden />
       <div className="container-apex relative py-16 md:py-24 grid gap-12 md:gap-16 md:grid-cols-12">
         <div className="md:col-span-5 space-y-6">
-          <div className="flex items-center gap-3">
-            <Image src="/brand/logo.png" alt="Apex-Line Studios" width={48} height={48} className="h-12 w-auto" />
+          <div className="flex items-center gap-4">
+            <BrandMark size={40} invert />
             <div>
               <p className="font-display text-2xl leading-none">Apex-Line</p>
               <p className="text-[10px] uppercase tracking-[0.26em] opacity-70">Studios</p>
@@ -57,13 +57,23 @@ export function Footer() {
         </div>
       </div>
 
+      <div className="relative flex justify-center pb-4">
+        <Link
+          href="/admin/login"
+          aria-label="Studio admin sign in"
+          title="Studio admin"
+          className="group inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-onyx/40 backdrop-blur-sm text-bone/40 hover:border-gold hover:text-gold transition-colors"
+        >
+          <Lock className="h-3.5 w-3.5" strokeWidth={1.5} />
+        </Link>
+      </div>
+
       <div className="relative border-t border-white/10">
         <div className="container-apex flex flex-col md:flex-row items-start md:items-center justify-between gap-4 py-6 text-xs text-bone/50">
           <p>&copy; {new Date().getFullYear()} {siteConfig.name}. All rights reserved.</p>
           <p className="flex flex-wrap items-center gap-x-6 gap-y-2">
             <Link href="/privacy" className="hover:text-bone">Privacy</Link>
             <Link href="/terms" className="hover:text-bone">Terms</Link>
-            <Link href="/admin" className="hover:text-bone">Admin</Link>
             <span className="hidden md:inline text-bone/20">|</span>
             <a
               href="https://thalamux-tech.web.app/"
