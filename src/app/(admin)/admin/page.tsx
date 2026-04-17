@@ -1,10 +1,11 @@
 "use client";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { collection, getDocs, limit, orderBy, query, where } from "firebase/firestore";
+import { collection, getDocs, limit, orderBy, query } from "firebase/firestore";
 import { ArrowUpRight, Inbox, Briefcase, Users, FolderKanban, Loader2 } from "lucide-react";
 import { getDb } from "@/lib/firebase/client";
 import { formatDate } from "@/lib/utils";
+import { AnalyticsPanel } from "./Analytics";
 
 type Lead = { id: string; formType: string; status: string; createdAt?: any; data?: Record<string, any> };
 
@@ -58,6 +59,8 @@ export default function AdminDashboard() {
           </Link>
         ))}
       </section>
+
+      <AnalyticsPanel leads={leads} />
 
       <section>
         <div className="flex items-center justify-between mb-5">

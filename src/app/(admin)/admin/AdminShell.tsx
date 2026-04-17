@@ -68,10 +68,14 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
     <div className="min-h-screen bg-bone text-onyx">
       <div className="lg:flex">
         <aside className="lg:sticky lg:top-0 lg:h-screen lg:w-64 lg:shrink-0 border-b lg:border-b-0 lg:border-r border-onyx/10 bg-graphite text-bone flex lg:flex-col">
-          <div className="flex items-center gap-3 px-6 py-5 border-b border-white/10 flex-1 lg:flex-none">
+          <Link
+            href="/"
+            aria-label="Visit public site"
+            className="flex items-center gap-3 px-6 py-5 border-b border-white/10 flex-1 lg:flex-none hover:bg-white/5 transition-colors"
+          >
             <BrandMark size={36} invert />
             <p className="text-[10px] uppercase tracking-[0.24em] text-gold self-end pb-1">Admin</p>
-          </div>
+          </Link>
           <nav className="p-3 flex lg:flex-col gap-1 overflow-x-auto lg:overflow-visible">
             {NAV.map((item) => (
               <Link key={item.href} href={item.href} className="flex items-center gap-3 px-4 py-3 text-sm hover:bg-white/5 whitespace-nowrap">
