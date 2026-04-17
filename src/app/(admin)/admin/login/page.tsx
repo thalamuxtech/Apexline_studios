@@ -1,12 +1,10 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { signInWithEmailAndPassword, setPersistence, browserLocalPersistence } from "firebase/auth";
-import { auth } from "@/lib/firebase/client";
-import { signInAction } from "@/app/actions/auth";
-import { Input, Label } from "@/components/forms/Field";
 import Image from "next/image";
 import { AlertCircle, LogIn } from "lucide-react";
+import { signInAdmin } from "@/lib/admin/client";
+import { Input, Label } from "@/components/forms/Field";
 
 export default function AdminLogin() {
   const router = useRouter();
@@ -18,18 +16,10 @@ export default function AdminLogin() {
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setErr(null); setBusy(true);
-    try {
-      await setPersistence(auth, browserLocalPersistence);
-      const cred = await signInWithEmailAndPassword(auth, email, pw);
-      const idToken = await cred.user.getIdToken();
-      const res = await signInAction(idToken);
-      if (!res.ok) throw new Error(res.error);
-      router.push("/admin");
-    } catch (e: any) {
-      setErr(e?.message?.replace("Firebase: ", "") ?? "Unable to sign in");
-    } finally {
-      setBusy(false);
-    }
+    const res = await signInAdmin(email, pw);
+    setBusy(false);
+    if (!res.ok) setErr(res.error);
+    else router.replace("/admin");
   }
 
   return (
@@ -65,7 +55,7 @@ export default function AdminLogin() {
             </button>
           </form>
           <p className="mt-6 text-xs text-bone/50 leading-relaxed">
-            Access is restricted to authorised studio email addresses. Contact the principal if you need access.
+            Access is restricted to authorised studio accounts. Contact the principal if you need access.
           </p>
         </div>
       </div>

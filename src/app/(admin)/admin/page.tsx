@@ -1,42 +1,43 @@
+"use client";
 import Link from "next/link";
-import { ArrowUpRight, Inbox, Briefcase, Users, FolderKanban } from "lucide-react";
-import { adminDb } from "@/lib/firebase/admin";
+import { useEffect, useState } from "react";
+import { collection, getDocs, limit, orderBy, query, where } from "firebase/firestore";
+import { ArrowUpRight, Inbox, Briefcase, Users, FolderKanban, Loader2 } from "lucide-react";
+import { getDb } from "@/lib/firebase/client";
 import { formatDate } from "@/lib/utils";
 
-export const dynamic = "force-dynamic";
+type Lead = { id: string; formType: string; status: string; createdAt?: any; data?: Record<string, any> };
 
-async function getStats() {
-  try {
-    const col = adminDb.collection("leads");
-    const [total, newCount, quote, careers, trainee, recent] = await Promise.all([
-      col.count().get(),
-      col.where("status", "==", "new").count().get(),
-      col.where("formType", "==", "quote").count().get(),
-      col.where("formType", "==", "careers").count().get(),
-      col.where("formType", "==", "trainee").count().get(),
-      col.orderBy("createdAt", "desc").limit(6).get(),
-    ]);
-    return {
-      total: total.data().count,
-      newCount: newCount.data().count,
-      quote: quote.data().count,
-      careers: careers.data().count,
-      trainee: trainee.data().count,
-      recent: recent.docs.map((d) => ({ id: d.id, ...d.data() }) as any),
-    };
-  } catch {
-    return { total: 0, newCount: 0, quote: 0, careers: 0, trainee: 0, recent: [] };
-  }
-}
+export default function AdminDashboard() {
+  const [loading, setLoading] = useState(true);
+  const [leads, setLeads] = useState<Lead[]>([]);
 
-export default async function AdminDashboard() {
-  const s = await getStats();
+  useEffect(() => {
+    (async () => {
+      try {
+        const snap = await getDocs(query(collection(getDb(), "leads"), orderBy("createdAt", "desc"), limit(200)));
+        setLeads(snap.docs.map((d) => ({ id: d.id, ...(d.data() as any) })));
+      } catch (e) { console.error(e); }
+      setLoading(false);
+    })();
+  }, []);
+
+  const counts = {
+    total: leads.length,
+    newCount: leads.filter((l) => l.status === "new").length,
+    quote: leads.filter((l) => l.formType === "quote").length,
+    careers: leads.filter((l) => l.formType === "careers").length,
+    trainee: leads.filter((l) => l.formType === "trainee").length,
+  };
+  const recent = leads.slice(0, 6);
+
   const cards = [
-    { label: "Inbox (new)", value: s.newCount, icon: Inbox, href: "/admin/leads?status=new" },
-    { label: "Quote requests", value: s.quote, icon: FolderKanban, href: "/admin/leads?formType=quote" },
-    { label: "Career applications", value: s.careers, icon: Briefcase, href: "/admin/leads?formType=careers" },
-    { label: "Trainee applications", value: s.trainee, icon: Users, href: "/admin/leads?formType=trainee" },
+    { label: "Inbox (new)", value: counts.newCount, icon: Inbox, href: "/admin/leads?status=new" },
+    { label: "Quote requests", value: counts.quote, icon: FolderKanban, href: "/admin/leads?formType=quote" },
+    { label: "Career applications", value: counts.careers, icon: Briefcase, href: "/admin/leads?formType=careers" },
+    { label: "Trainee applications", value: counts.trainee, icon: Users, href: "/admin/leads?formType=trainee" },
   ];
+
   return (
     <div className="space-y-10">
       <header>
@@ -52,7 +53,7 @@ export default async function AdminDashboard() {
               <c.icon className="h-6 w-6 text-gold" strokeWidth={1.25} />
               <ArrowUpRight className="h-4 w-4 text-onyx/40 group-hover:text-gold transition-colors" />
             </div>
-            <p className="mt-8 font-display text-5xl">{c.value}</p>
+            <p className="mt-8 font-display text-5xl">{loading ? "—" : c.value}</p>
             <p className="mt-2 text-xs uppercase tracking-[0.2em] text-stone">{c.label}</p>
           </Link>
         ))}
@@ -64,11 +65,12 @@ export default async function AdminDashboard() {
           <Link href="/admin/leads" className="text-xs uppercase tracking-[0.2em] text-onyx/70 link-underline">View all</Link>
         </div>
         <div className="border border-onyx/10 bg-white overflow-hidden">
-          {s.recent.length === 0 && <p className="p-6 text-sm text-stone">No submissions yet. Once the public forms receive enquiries, they&rsquo;ll appear here.</p>}
+          {loading && <div className="p-6 flex items-center gap-3 text-sm text-stone"><Loader2 className="h-4 w-4 animate-spin" /> Loading...</div>}
+          {!loading && recent.length === 0 && <p className="p-6 text-sm text-stone">No submissions yet. Once the public forms receive enquiries, they&rsquo;ll appear here.</p>}
           <ul className="divide-y divide-onyx/10">
-            {s.recent.map((r) => (
+            {recent.map((r) => (
               <li key={r.id}>
-                <Link href={`/admin/leads/${r.id}`} className="flex items-center gap-4 p-4 md:p-5 hover:bg-ivory/50">
+                <Link href={`/admin/leads/detail?id=${r.id}`} className="flex items-center gap-4 p-4 md:p-5 hover:bg-ivory/50">
                   <span className="hidden sm:inline-block shrink-0 w-20 text-[10px] uppercase tracking-[0.2em] text-gold">{r.formType}</span>
                   <div className="flex-1 min-w-0">
                     <p className="font-medium truncate">{r.data?.fullName ?? r.data?.name ?? r.data?.email ?? "—"}</p>

@@ -15,11 +15,8 @@ jobs:
         with:
           version: 9
       - run: pnpm install --frozen-lockfile
+      - run: pnpm build
       - uses: FirebaseExtended/action-hosting-deploy@v0
-        env:
-          FIREBASE_CLI_EXPERIMENTS: webframeworks
-          ADMIN_ALLOWLIST_EMAILS: ${{ secrets.ADMIN_ALLOWLIST_EMAILS }}
-          FIREBASE_SERVICE_ACCOUNT_BASE64: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_BASE64 }}
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_APEXLINE }}

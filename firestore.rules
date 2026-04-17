@@ -6,7 +6,14 @@ service cloud.firestore {
       return request.auth != null && request.auth.token.admin == true;
     }
 
-    // Public content: readable when published
+    function validLeadCreate() {
+      return request.resource.data.keys().hasAll(['formType', 'data', 'status', 'createdAt'])
+        && request.resource.data.status == 'new'
+        && request.resource.data.formType is string
+        && request.resource.data.data is map;
+    }
+
+    // Public content
     match /projects/{id} {
       allow read: if resource.data.status == 'published' || isAdmin();
       allow write: if isAdmin();
@@ -32,16 +39,10 @@ service cloud.firestore {
       allow write: if isAdmin();
     }
 
-    // Lead submissions: anyone can create, only admins read/update
+    // Leads: public can create (bounded), only admins can read/update/delete
     match /leads/{id} {
-      allow create: if request.resource.data.keys().hasAll(['formType', 'createdAt', 'data']);
+      allow create: if validLeadCreate();
       allow read, update, delete: if isAdmin();
-    }
-
-    // Admin-only collections
-    match /audit_log/{id} {
-      allow read: if isAdmin();
-      allow create: if isAdmin();
     }
 
     match /users/{uid} {

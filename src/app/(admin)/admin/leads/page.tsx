@@ -1,8 +1,11 @@
+"use client";
 import Link from "next/link";
-import { adminDb } from "@/lib/firebase/admin";
+import { Suspense, useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { collection, getDocs, limit, orderBy, query } from "firebase/firestore";
+import { Loader2 } from "lucide-react";
+import { getDb } from "@/lib/firebase/client";
 import { formatDate } from "@/lib/utils";
-
-export const dynamic = "force-dynamic";
 
 const FORM_TYPES = [
   { value: "", label: "All types" },
@@ -22,33 +25,37 @@ const STATUSES = [
   { value: "archived", label: "Archived" },
 ];
 
-async function fetchLeads(formType?: string, status?: string) {
-  try {
-    let q: FirebaseFirestore.Query = adminDb.collection("leads");
-    if (formType) q = q.where("formType", "==", formType);
-    if (status) q = q.where("status", "==", status);
-    q = q.orderBy("createdAt", "desc").limit(100);
-    const snap = await q.get();
-    return snap.docs.map((d) => ({ id: d.id, ...d.data() }) as any);
-  } catch {
-    return [];
-  }
-}
+type Lead = { id: string; formType: string; status: string; createdAt?: any; data?: any };
 
-export default async function LeadsIndex({ searchParams }: { searchParams: Promise<{ formType?: string; status?: string }> }) {
-  const sp = await searchParams;
-  const formType = sp.formType ?? "";
-  const status = sp.status ?? "";
-  const leads = await fetchLeads(formType || undefined, status || undefined);
+function LeadsInner() {
+  const sp = useSearchParams();
+  const formType = sp?.get("formType") ?? "";
+  const status = sp?.get("status") ?? "";
+
+  const [leads, setLeads] = useState<Lead[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    (async () => {
+      setLoading(true);
+      try {
+        const snap = await getDocs(query(collection(getDb(), "leads"), orderBy("createdAt", "desc"), limit(200)));
+        setLeads(snap.docs.map((d) => ({ id: d.id, ...(d.data() as any) })));
+      } catch (e) { console.error(e); }
+      setLoading(false);
+    })();
+  }, []);
+
+  const filtered = useMemo(() => {
+    return leads.filter((l) => (!formType || l.formType === formType) && (!status || l.status === status));
+  }, [leads, formType, status]);
 
   return (
     <div className="space-y-8">
-      <header className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
-        <div>
-          <p className="eyebrow text-gold mb-3">Inbox</p>
-          <h1 className="font-display text-4xl md:text-5xl">Submissions</h1>
-          <p className="mt-3 text-stone">All enquiries, applications and outreach from the public site.</p>
-        </div>
+      <header>
+        <p className="eyebrow text-gold mb-3">Inbox</p>
+        <h1 className="font-display text-4xl md:text-5xl">Submissions</h1>
+        <p className="mt-3 text-stone">All enquiries, applications and outreach from the public site.</p>
       </header>
 
       <form className="flex flex-col sm:flex-row flex-wrap items-start sm:items-end gap-3" method="get">
@@ -71,7 +78,9 @@ export default async function LeadsIndex({ searchParams }: { searchParams: Promi
       </form>
 
       <div className="border border-onyx/10 bg-white overflow-x-auto">
-        {leads.length === 0 ? (
+        {loading ? (
+          <div className="p-6 flex items-center gap-3 text-sm text-stone"><Loader2 className="h-4 w-4 animate-spin" /> Loading...</div>
+        ) : filtered.length === 0 ? (
           <p className="p-8 text-sm text-stone text-center">No submissions match this filter yet.</p>
         ) : (
           <table className="w-full text-sm min-w-[720px]">
@@ -86,13 +95,13 @@ export default async function LeadsIndex({ searchParams }: { searchParams: Promi
               </tr>
             </thead>
             <tbody className="divide-y divide-onyx/10">
-              {leads.map((l) => (
+              {filtered.map((l) => (
                 <tr key={l.id} className="hover:bg-ivory/40">
                   <td className="px-5 py-4">
-                    <Link href={`/admin/leads/${l.id}`} className="text-[10px] uppercase tracking-[0.2em] text-gold">{l.formType}</Link>
+                    <Link href={`/admin/leads/detail?id=${l.id}`} className="text-[10px] uppercase tracking-[0.2em] text-gold">{l.formType}</Link>
                   </td>
                   <td className="px-5 py-4">
-                    <Link href={`/admin/leads/${l.id}`} className="font-medium link-underline">
+                    <Link href={`/admin/leads/detail?id=${l.id}`} className="font-medium link-underline">
                       {l.data?.fullName ?? l.data?.name ?? l.data?.email ?? "—"}
                     </Link>
                   </td>
@@ -115,4 +124,8 @@ export default async function LeadsIndex({ searchParams }: { searchParams: Promi
       </div>
     </div>
   );
+}
+
+export default function LeadsIndex() {
+  return <Suspense fallback={<div className="text-sm text-stone">Loading…</div>}><LeadsInner /></Suspense>;
 }

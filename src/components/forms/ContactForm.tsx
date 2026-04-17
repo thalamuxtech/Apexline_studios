@@ -3,7 +3,7 @@ import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckCircle2, Send } from "lucide-react";
-import { submitLead } from "@/app/actions/leads";
+import { submitLead } from "@/lib/leads";
 import { contactSchema, type ContactInput } from "@/lib/schemas";
 import { Input, Label, Textarea, Consent } from "./Field";
 
