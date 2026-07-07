@@ -5,25 +5,23 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, ArrowDown, PlayCircle } from "lucide-react";
 import { siteConfig } from "@/content/site";
-
-const HERO_PLATES = [
-  { src: "/hero/hero-primary.jpg", label: "Marion Apartment", sector: "Luxury Residential", year: "2025" },
-  { src: "/hero/hero-alt.jpg", label: "ED Marina", sector: "Heritage Commercial", year: "2020" },
-  { src: "/hero/hero-craft.jpg", label: "Shell FMH, Marina", sector: "Corporate Facilities", year: "2024" },
-];
+import { fallbackHeroSlides, useHeroSlides } from "@/lib/useHeroSlides";
 
 export function Hero() {
   const [active, setActive] = useState(0);
+  const { slides } = useHeroSlides();
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 500], [0, 80]);
   const opacity = useTransform(scrollY, [0, 400], [1, 0.3]);
 
   useEffect(() => {
-    const t = setInterval(() => setActive((p) => (p + 1) % HERO_PLATES.length), 6500);
+    const count = slides.length || fallbackHeroSlides.length;
+    const t = setInterval(() => setActive((p) => (p + 1) % count), 6500);
     return () => clearInterval(t);
-  }, []);
+  }, [slides.length]);
 
-  const plate = HERO_PLATES[active];
+  const heroPlates = slides.length ? slides : fallbackHeroSlides;
+  const plate = heroPlates[active] ?? heroPlates[0];
 
   return (
     <section className="relative min-h-[100svh] w-full overflow-hidden bg-onyx text-bone">
@@ -139,7 +137,7 @@ export function Hero() {
                 </motion.div>
               </AnimatePresence>
               <div className="mt-5 flex gap-1.5">
-                {HERO_PLATES.map((_, i) => (
+                {heroPlates.map((_, i) => (
                   <button
                     key={i}
                     aria-label={`Show plate ${i + 1}`}
@@ -181,3 +179,5 @@ export function Hero() {
     </section>
   );
 }
+
+

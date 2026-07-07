@@ -4,12 +4,13 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, MapPin } from "lucide-react";
-import { projects } from "@/content/site";
+import { projectFallbacks } from "@/lib/projects";
+import { useManagedProjects } from "@/lib/useManagedProjects";
 import { Reveal } from "@/components/motion/Reveal";
 
 const SECTORS = ["All", "Commercial", "Residential", "Hospitality", "Healthcare", "Corporate"];
 
-function matchSector(p: (typeof projects)[number], s: string) {
+function matchSector(p: (typeof projectFallbacks)[number], s: string) {
   if (s === "All") return true;
   return p.sector.toLowerCase().includes(s.toLowerCase());
 }
@@ -17,8 +18,9 @@ function matchSector(p: (typeof projects)[number], s: string) {
 export function FeaturedProjects() {
   const [filter, setFilter] = useState("All");
   const [hovered, setHovered] = useState<string | null>(null);
+  const { projects } = useManagedProjects();
 
-  const list = useMemo(() => projects.filter((p) => matchSector(p, filter)).slice(0, 6), [filter]);
+  const list = useMemo(() => projects.filter((p) => matchSector(p, filter)).slice(0, 6), [projects, filter]);
 
   return (
     <section className="relative section bg-onyx text-bone overflow-hidden">
@@ -153,3 +155,5 @@ export function FeaturedProjects() {
     </section>
   );
 }
+
+

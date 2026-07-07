@@ -1,7 +1,7 @@
 "use client";
 import { motion, useInView, useMotionValue, useTransform, animate } from "framer-motion";
 import { useEffect, useRef } from "react";
-import { stats } from "@/content/site";
+import { useStats } from "@/lib/useSiteContent";
 
 function Counter({ to }: { to: string }) {
   const ref = useRef<HTMLSpanElement>(null);
@@ -20,6 +20,7 @@ function Counter({ to }: { to: string }) {
 }
 
 export function Stats() {
+  const { stats } = useStats();
   return (
     <section className="bg-onyx text-bone py-20 md:py-28 relative overflow-hidden">
       <div className="absolute inset-0 blueprint-grid opacity-20" />

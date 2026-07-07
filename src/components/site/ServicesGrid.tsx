@@ -1,14 +1,19 @@
 "use client";
 import Link from "next/link";
-import { ArrowUpRight, Compass, HardHat, Sofa, Trees, Hammer, FileText, type LucideIcon } from "lucide-react";
-import { services } from "@/content/site";
+import {
+  ArrowUpRight, Compass, HardHat, Sofa, Trees, Hammer, FileText,
+  Building2, Ruler, Lightbulb, PenTool, Layers, Landmark, type LucideIcon,
+} from "lucide-react";
 import { Reveal } from "@/components/motion/Reveal";
+import { useServices } from "@/lib/useSiteContent";
 
 const ICONS: Record<string, LucideIcon> = {
   Compass, HardHat, Sofa, Trees, Hammer, FileText,
+  Building2, Ruler, Lightbulb, PenTool, Layers, Landmark,
 };
 
 export function ServicesGrid({ compact = false }: { compact?: boolean }) {
+  const { services } = useServices();
   return (
     <section className="section bg-bone">
       <div className="container-apex">

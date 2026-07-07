@@ -1,16 +1,20 @@
 "use client";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { testimonials } from "@/content/site";
 import { Reveal } from "@/components/motion/Reveal";
+import { useTestimonials } from "@/lib/useSiteContent";
 
 export function Testimonials() {
+  const { testimonials } = useTestimonials();
   const [i, setI] = useState(0);
   useEffect(() => {
+    setI(0);
+    if (testimonials.length < 2) return;
     const t = setInterval(() => setI((p) => (p + 1) % testimonials.length), 8000);
     return () => clearInterval(t);
-  }, []);
-  const t = testimonials[i];
+  }, [testimonials.length]);
+  const t = testimonials[i] ?? testimonials[0];
+  if (!t) return null;
   return (
     <section className="section bg-bone">
       <div className="container-apex">

@@ -6,6 +6,10 @@ const config: NextConfig = {
   images: {
     unoptimized: true,
     formats: ["image/avif", "image/webp"],
+    remotePatterns: [
+      { protocol: "https", hostname: "firebasestorage.googleapis.com" },
+      { protocol: "https", hostname: "storage.googleapis.com" },
+    ],
   },
   trailingSlash: true,
   experimental: {
@@ -14,3 +18,4 @@ const config: NextConfig = {
 };
 
 export default config;
+

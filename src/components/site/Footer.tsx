@@ -1,9 +1,13 @@
+"use client";
 import Link from "next/link";
 import { ArrowUpRight, Facebook, Instagram, Linkedin, Lock, Mail, MapPin, Phone, Clock } from "lucide-react";
-import { siteConfig, navLinks, services } from "@/content/site";
+import { siteConfig, navLinks } from "@/content/site";
+import { useServices, useSiteProfile } from "@/lib/useSiteContent";
 import { BrandMark } from "./BrandMark";
 
 export function Footer() {
+  const { profile } = useSiteProfile();
+  const { services } = useServices();
   return (
     <footer className="relative bg-onyx text-bone overflow-hidden">
       <div className="absolute inset-0 blueprint-grid opacity-40" aria-hidden />
@@ -34,7 +38,7 @@ export function Footer() {
         <div className="md:col-span-5 space-y-8">
           <BrandMark size={80} invert />
           <p className="font-editorial italic text-2xl md:text-3xl text-bone leading-snug max-w-md">
-            {siteConfig.tagline}
+            {profile.tagline}
           </p>
           <p className="text-bone/60 text-base leading-relaxed max-w-md">
             A Lagos multi-disciplinary architecture, construction and interior design practice — shaping Nigeria&rsquo;s skyline with disciplined craft since {siteConfig.founded}.
@@ -42,19 +46,19 @@ export function Footer() {
           <div className="space-y-3 text-sm text-bone/80 pt-4 border-t border-white/10">
             <p className="flex items-start gap-4">
               <MapPin className="h-4 w-4 mt-1 text-gold shrink-0" strokeWidth={1.5} />
-              <span>{siteConfig.contact.address}</span>
+              <span>{profile.contact.address}</span>
             </p>
-            <a href={`mailto:${siteConfig.contact.email}`} className="flex items-center gap-4 hover:text-gold transition-colors">
+            <a href={`mailto:${profile.contact.email}`} className="flex items-center gap-4 hover:text-gold transition-colors">
               <Mail className="h-4 w-4 text-gold shrink-0" strokeWidth={1.5} />
-              <span>{siteConfig.contact.email}</span>
+              <span>{profile.contact.email}</span>
             </a>
-            <a href={`tel:${siteConfig.contact.phone.replace(/\s/g, "")}`} className="flex items-center gap-4 hover:text-gold transition-colors">
+            <a href={`tel:${profile.contact.phone.replace(/\s/g, "")}`} className="flex items-center gap-4 hover:text-gold transition-colors">
               <Phone className="h-4 w-4 text-gold shrink-0" strokeWidth={1.5} />
-              <span>{siteConfig.contact.phone}</span>
+              <span>{profile.contact.phone}</span>
             </a>
             <p className="flex items-center gap-4 text-bone/60">
               <Clock className="h-4 w-4 text-gold shrink-0" strokeWidth={1.5} />
-              <span>{siteConfig.contact.hours}</span>
+              <span>{profile.contact.hours}</span>
             </p>
           </div>
         </div>
@@ -92,9 +96,9 @@ export function Footer() {
           </ul>
           <p className="eyebrow mt-10 mb-5">Follow</p>
           <div className="flex gap-3 items-center">
-            <a aria-label="Facebook" href={siteConfig.social.facebook} target="_blank" rel="noopener noreferrer" className="inline-flex h-10 w-10 items-center justify-center border border-white/15 hover:border-gold hover:text-gold transition"><Facebook className="h-4 w-4" strokeWidth={1.5} /></a>
-            <a aria-label="Instagram" href={siteConfig.social.instagram} target="_blank" rel="noopener noreferrer" className="inline-flex h-10 w-10 items-center justify-center border border-white/15 hover:border-gold hover:text-gold transition"><Instagram className="h-4 w-4" strokeWidth={1.5} /></a>
-            <a aria-label="LinkedIn" href={siteConfig.social.linkedin} target="_blank" rel="noopener noreferrer" className="inline-flex h-10 w-10 items-center justify-center border border-white/15 hover:border-gold hover:text-gold transition"><Linkedin className="h-4 w-4" strokeWidth={1.5} /></a>
+            <a aria-label="Facebook" href={profile.social.facebook} target="_blank" rel="noopener noreferrer" className="inline-flex h-10 w-10 items-center justify-center border border-white/15 hover:border-gold hover:text-gold transition"><Facebook className="h-4 w-4" strokeWidth={1.5} /></a>
+            <a aria-label="Instagram" href={profile.social.instagram} target="_blank" rel="noopener noreferrer" className="inline-flex h-10 w-10 items-center justify-center border border-white/15 hover:border-gold hover:text-gold transition"><Instagram className="h-4 w-4" strokeWidth={1.5} /></a>
+            <a aria-label="LinkedIn" href={profile.social.linkedin} target="_blank" rel="noopener noreferrer" className="inline-flex h-10 w-10 items-center justify-center border border-white/15 hover:border-gold hover:text-gold transition"><Linkedin className="h-4 w-4" strokeWidth={1.5} /></a>
           </div>
         </div>
       </div>
