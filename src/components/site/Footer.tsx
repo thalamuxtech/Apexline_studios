@@ -108,17 +108,7 @@ export function Footer() {
         <p className="pointer-events-none select-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap font-display italic text-[26vw] md:text-[22vw] leading-none text-white/[0.03] tracking-tightest">
           Apex-Line
         </p>
-        <div className="container-apex relative py-16 md:py-20 flex flex-col items-center gap-5">
-          <Link
-            href="/admin/login"
-            aria-label="Studio admin sign in"
-            title="Studio admin"
-            className="group inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-onyx/60 backdrop-blur-sm text-bone/50 hover:border-gold hover:text-gold transition-colors"
-          >
-            <Lock className="h-4 w-4" strokeWidth={1.5} />
-          </Link>
-          <p className="text-[10px] uppercase tracking-[0.24em] text-bone/30">Studio admin</p>
-        </div>
+        <div className="container-apex relative py-16 md:py-20" />
       </div>
 
       <div className="relative border-t border-white/10">
@@ -127,6 +117,9 @@ export function Footer() {
           <p className="flex flex-wrap items-center gap-x-6 gap-y-2">
             <Link href="/privacy" className="hover:text-bone">Privacy</Link>
             <Link href="/terms" className="hover:text-bone">Terms</Link>
+            <Link href="/admin/login" aria-label="Studio admin sign in" title="Studio admin" className="inline-flex items-center gap-1.5 hover:text-gold">
+              <Lock className="h-3.5 w-3.5" strokeWidth={1.5} /> Admin
+            </Link>
             <span className="hidden md:inline text-bone/20">|</span>
             <a
               href="https://thalamux-tech.web.app/"
