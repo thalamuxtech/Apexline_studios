@@ -9,7 +9,7 @@ export const siteConfig = {
   founder: "Arc. Sumaila Onimisi Yusuf",
   location: "Lagos, Nigeria",
   contact: {
-    email: "onibusy4all.jo@gmail.com",
+    email: "apexlinestudioltd@gmail.com",
     phone: "+234 803 844 5024",
     address: "Victoria Island, Lagos, Nigeria",
     hours: "Mon-Fri  09:00 - 18:00 WAT",
