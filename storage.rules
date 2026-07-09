@@ -1,16 +1,33 @@
 rules_version = '2';
 service firebase.storage {
   match /b/{bucket}/o {
+
     function isAdmin() {
       return request.auth != null && request.auth.token.admin == true;
     }
-    match /public/{allPaths=**} {
-      allow read;
-      allow write: if isAdmin();
+
+    // Only real image types, capped in size — used by the admin project /
+    // hero uploaders. Read is public (these assets appear on the site).
+    function isImageUnder(maxBytes) {
+      return request.resource.size < maxBytes
+        && request.resource.contentType.matches('image/(jpeg|png|webp|avif|gif|svg\\+xml)');
     }
+
+    match /public/{allPaths=**} {
+      allow read: if true;
+      // Admin-only writes, images only, max 10 MB.
+      allow write: if isAdmin() && isImageUnder(10 * 1024 * 1024);
+    }
+
+    // Not used by the public forms today. Kept admin-only and fully locked
+    // so it can never become an open, unauthenticated upload bucket.
     match /leads/{allPaths=**} {
-      allow read: if isAdmin();
-      allow write: if request.resource.size < 10 * 1024 * 1024;
+      allow read, write: if isAdmin();
+    }
+
+    // Default deny — anything outside the paths above is forbidden.
+    match /{allPaths=**} {
+      allow read, write: if false;
     }
   }
 }

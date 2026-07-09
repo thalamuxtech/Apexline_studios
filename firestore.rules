@@ -6,48 +6,80 @@ service cloud.firestore {
       return request.auth != null && request.auth.token.admin == true;
     }
 
-    function validLeadCreate() {
-      return request.resource.data.keys().hasAll(['formType', 'data', 'status', 'createdAt'])
-        && request.resource.data.status == 'new'
-        && request.resource.data.formType is string
-        && request.resource.data.data is map;
+    // ---- Leads (public write endpoint — must be tightly bounded) ----
+
+    // Only these top-level keys may exist on a newly created lead.
+    function leadKeysAllowed() {
+      return request.resource.data.keys().hasOnly(
+        ['formType', 'data', 'status', 'createdAt', 'source']
+      );
     }
 
-    // Public content
+    function validLeadCreate() {
+      let d = request.resource.data;
+      return leadKeysAllowed()
+        && d.keys().hasAll(['formType', 'data', 'status', 'createdAt'])
+        // status of a fresh submission is always "new"
+        && d.status == 'new'
+        // formType is one of the known public forms
+        && d.formType is string
+        && d.formType in ['contact', 'quote', 'careers', 'trainee', 'newsletter']
+        // payload is a map and bounded in field-count to prevent giant docs
+        && d.data is map
+        && d.data.size() <= 40
+        // createdAt must be the server timestamp (blocks spoofed/back-dated leads)
+        && d.createdAt == request.time
+        // optional source metadata, if present, must be a small map
+        && (!('source' in d) || (d.source is map && d.source.size() <= 6));
+    }
+
+    match /leads/{id} {
+      allow create: if validLeadCreate();
+      // PII (names, emails, phones) — never publicly readable
+      allow read, update, delete: if isAdmin();
+    }
+
+    // ---- Public content (published to the world, written only by admins) ----
+
     match /projects/{id} {
-      allow read: if resource.data.status == 'published' || isAdmin();
+      allow read: if (resource.data.status == 'published') || isAdmin();
       allow write: if isAdmin();
     }
 
     match /services/{id} {
-      allow read: if resource.data.status == 'published' || isAdmin();
+      allow read: if (resource.data.status == 'published') || isAdmin();
       allow write: if isAdmin();
     }
 
     match /testimonials/{id} {
-      allow read: if resource.data.approved == true || isAdmin();
+      allow read: if (resource.data.approved == true) || isAdmin();
       allow write: if isAdmin();
     }
 
     match /journal/{id} {
-      allow read: if resource.data.status == 'published' || isAdmin();
+      allow read: if (resource.data.status == 'published') || isAdmin();
       allow write: if isAdmin();
     }
 
+    // Managed site content (hero slides, services, testimonials, stats,
+    // clients, profile). Public reads are intentional; writes are admin-only.
     match /settings/{id} {
-      allow read;
+      allow read: if true;
       allow write: if isAdmin();
     }
 
-    // Leads: public can create (bounded), only admins can read/update/delete
-    match /leads/{id} {
-      allow create: if validLeadCreate();
-      allow read, update, delete: if isAdmin();
-    }
+    // ---- Users ----
 
     match /users/{uid} {
-      allow read: if isAdmin() || request.auth.uid == uid;
+      // A signed-in user may read only their own doc; admins read all.
+      allow read: if isAdmin() || (request.auth != null && request.auth.uid == uid);
+      // Role/claims live in the auth token, never in a self-writable doc.
       allow write: if isAdmin();
+    }
+
+    // ---- Default deny — anything not matched above is forbidden ----
+    match /{document=**} {
+      allow read, write: if false;
     }
   }
 }
