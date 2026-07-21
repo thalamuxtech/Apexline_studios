@@ -4,12 +4,14 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { navLinks, siteConfig } from "@/content/site";
+import { siteConfig } from "@/content/site";
+import { useNavLinks } from "@/lib/useSiteContent";
 import { BrandMark } from "./BrandMark";
 
 export function Nav({ variant = "light" }: { variant?: "light" | "dark" }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const { links: navLinks } = useNavLinks();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);

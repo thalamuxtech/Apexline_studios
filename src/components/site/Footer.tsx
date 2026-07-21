@@ -1,13 +1,14 @@
 "use client";
 import Link from "next/link";
 import { ArrowUpRight, Facebook, Instagram, Linkedin, Lock, Mail, MapPin, Phone, Clock } from "lucide-react";
-import { siteConfig, navLinks } from "@/content/site";
-import { useServices, useSiteProfile } from "@/lib/useSiteContent";
+import { siteConfig } from "@/content/site";
+import { useServices, useSiteProfile, useFooter } from "@/lib/useSiteContent";
 import { BrandMark } from "./BrandMark";
 
 export function Footer() {
   const { profile } = useSiteProfile();
   const { services } = useServices();
+  const { footer } = useFooter();
   return (
     <footer className="relative bg-onyx text-bone overflow-hidden">
       <div className="absolute inset-0 blueprint-grid opacity-40" aria-hidden />
@@ -16,9 +17,9 @@ export function Footer() {
       <div className="relative border-b border-white/10">
         <div className="container-apex py-20 md:py-28 grid gap-10 md:gap-14 md:grid-cols-12 items-end">
           <div className="md:col-span-8">
-            <p className="eyebrow mb-6">Let&rsquo;s build</p>
+            <p className="eyebrow mb-6">{footer.statementEyebrow}</p>
             <h2 className="font-display text-4xl md:text-6xl lg:text-7xl leading-[1.02] text-balance">
-              Have a site, a brief, or a vision?
+              {footer.statementTitle}
               <br />
               <em className="font-editorial italic text-gold">We&rsquo;d be glad to hear from you.</em>
             </h2>
@@ -66,7 +67,7 @@ export function Footer() {
         <div className="md:col-span-2">
           <p className="eyebrow mb-6">Practice</p>
           <ul className="space-y-3.5 text-sm">
-            {navLinks.map((l) => (
+            {footer.practiceLinks.map((l) => (
               <li key={l.href}>
                 <Link href={l.href} className="link-underline text-bone/80 hover:text-bone">{l.label}</Link>
               </li>
@@ -88,11 +89,9 @@ export function Footer() {
         <div className="md:col-span-2">
           <p className="eyebrow mb-6">Engage</p>
           <ul className="space-y-3.5 text-sm">
-            <li><Link href="/request-a-quote" className="link-underline text-bone/80 hover:text-bone">Request a quote</Link></li>
-            <li><Link href="/careers" className="link-underline text-bone/80 hover:text-bone">Careers</Link></li>
-            <li><Link href="/trainees" className="link-underline text-bone/80 hover:text-bone">Internship</Link></li>
-            <li><Link href="/journal" className="link-underline text-bone/80 hover:text-bone">Journal</Link></li>
-            <li><Link href="/contact" className="link-underline text-bone/80 hover:text-bone">Contact</Link></li>
+            {footer.engageLinks.map((l) => (
+              <li key={l.href}><Link href={l.href} className="link-underline text-bone/80 hover:text-bone">{l.label}</Link></li>
+            ))}
           </ul>
           <p className="eyebrow mt-10 mb-5">Follow</p>
           <div className="flex gap-3 items-center">

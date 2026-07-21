@@ -18,6 +18,8 @@ import {
   stats as fallbackStats,
   clientMarquee as fallbackClients,
   siteConfig as fallbackProfile,
+  processSteps as fallbackProcess,
+  navLinks as fallbackNav,
 } from "@/content/site";
 
 /* --------------------------------------------------------------- Types */
@@ -38,6 +40,41 @@ export type TestimonialItem = {
 };
 
 export type StatItem = { value: string; label: string };
+
+export type ProcessStep = { number: string; title: string; body: string };
+
+export type Milestone = { year: string; title: string; body: string };
+
+export type AboutContent = {
+  imageSrc: string;
+  principalEyebrow: string;
+  principalName: string;
+  principalQuote: string;
+  principalBio: string[];
+  milestonesTitle: string;
+  milestones: Milestone[];
+};
+
+export type JournalArticle = {
+  slug: string;
+  title: string;
+  excerpt: string;
+  image: string;
+  date: string;
+  body?: string;
+  status?: "draft" | "published";
+};
+
+export type NavLink = { href: string; label: string };
+
+export type FooterLink = { href: string; label: string };
+
+export type FooterContent = {
+  statementEyebrow: string;
+  statementTitle: string;
+  practiceLinks: FooterLink[];
+  engageLinks: FooterLink[];
+};
 
 export type SiteProfile = {
   tagline: string;
@@ -70,6 +107,48 @@ export const defaultProfile: SiteProfile = {
   description: fallbackProfile.description,
   contact: { ...fallbackProfile.contact },
   social: { ...fallbackProfile.social },
+};
+
+export const defaultProcess: ProcessStep[] = fallbackProcess.map((s) => ({ ...s }));
+
+export const defaultAbout: AboutContent = {
+  imageSrc: "/site/site-04.jpg",
+  principalEyebrow: "The Principal",
+  principalName: "Arc. Sumaila Onimisi Yusuf",
+  principalQuote: "Every line we draw is a commitment we will honour on site.",
+  principalBio: [
+    "Trained as an architect with a B-Tech in technology, the principal cut his professional teeth supervising the delivery of ten duplex buildings at BUA Estate, Abuja. Fifteen years on, his hands-on approach still defines how Apex-Line Studios operates — from sketch to snagging.",
+    "Under his direction, the practice has delivered remodellings for Access Bank, estate-scale housing at Twin Lakes, institutional healthcare in Ikeja and a full sixteen-floor rebuild for Shell on Broad Street — each one held to the same uncompromising standard.",
+  ],
+  milestonesTitle: "A record of growth, built project by project.",
+  milestones: [
+    { year: "2009", title: "Practice founded", body: "Arc. Sumaila Onimisi Yusuf launches Apex-Line Studios in Lagos, after formative years leading residential delivery in Abuja." },
+    { year: "2014", title: "First major institutional project", body: "Victoria Island commercial remodelling commissions establish the studio's reputation for disciplined finishing." },
+    { year: "2018", title: "Corporate client expansion", body: "Facilities programmes for multinationals including Shell and Chevron anchor the practice's commercial portfolio." },
+    { year: "2022", title: "Healthcare & hospitality", body: "Duchess Hospital and George Hotel Annex extend the studio's reach across sectors." },
+    { year: "2024", title: "Sixteen-floor Shell upgrade", body: "FMH Broad Street programme completes to world-class operational standard." },
+  ],
+};
+
+export const defaultJournal: JournalArticle[] = [
+  { slug: "on-disciplined-site-craft", title: "On disciplined site craft", excerpt: "Why the quietest projects we deliver are also the most demanding.", image: "/site/site-10.jpg", date: "2026 · Editorial", status: "published" },
+  { slug: "marina-rebuilt", title: "Marina, rebuilt", excerpt: "Notes from a sixteen-floor upgrade and what facilities-grade finishing really means.", image: "/site/site-15.jpg", date: "2025 · Case Notes", status: "published" },
+  { slug: "material-restraint", title: "Material restraint", excerpt: "A short argument for doing less, done better — in finishes and in specification.", image: "/site/site-18.jpg", date: "2025 · Essay", status: "published" },
+];
+
+export const defaultNav: NavLink[] = fallbackNav.map((l) => ({ ...l }));
+
+export const defaultFooter: FooterContent = {
+  statementEyebrow: "Let's build",
+  statementTitle: "Have a site, a brief, or a vision?",
+  practiceLinks: fallbackNav.map((l) => ({ ...l })),
+  engageLinks: [
+    { href: "/request-a-quote", label: "Request a quote" },
+    { href: "/careers", label: "Careers" },
+    { href: "/trainees", label: "Internship" },
+    { href: "/journal", label: "Journal" },
+    { href: "/contact", label: "Contact" },
+  ],
 };
 
 /* ------------------------------------------------- Icon whitelist (services) */
@@ -146,6 +225,42 @@ export function cleanClients(list: string[]): string[] {
   return Array.from(new Set(list.map((c) => c.trim()).filter(Boolean)));
 }
 
+export function cleanProcess(list: ProcessStep[]): ProcessStep[] {
+  return list
+    .map((s, i) => ({
+      number: (s.number ?? "").trim() || String(i + 1).padStart(2, "0"),
+      title: (s.title ?? "").trim(),
+      body: (s.body ?? "").trim(),
+    }))
+    .filter((s) => s.title);
+}
+
+export function cleanMilestones(list: Milestone[]): Milestone[] {
+  return list
+    .map((m) => ({ year: (m.year ?? "").trim(), title: (m.title ?? "").trim(), body: (m.body ?? "").trim() }))
+    .filter((m) => m.title);
+}
+
+export function cleanJournal(list: JournalArticle[]): JournalArticle[] {
+  return list
+    .map((a) => ({
+      slug: (a.slug || slugify(a.title)).trim(),
+      title: (a.title ?? "").trim(),
+      excerpt: (a.excerpt ?? "").trim(),
+      image: (a.image ?? "").trim(),
+      date: (a.date ?? "").trim(),
+      body: (a.body ?? "").trim(),
+      status: (a.status === "draft" ? "draft" : "published") as "draft" | "published",
+    }))
+    .filter((a) => a.title && a.slug);
+}
+
+export function cleanLinks(list: FooterLink[]): FooterLink[] {
+  return list
+    .map((l) => ({ href: (l.href ?? "").trim(), label: (l.label ?? "").trim() }))
+    .filter((l) => l.href && l.label);
+}
+
 export function slugify(text: string) {
   return text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 }
@@ -176,4 +291,30 @@ export function useClients() {
 export function useSiteProfile() {
   const { value, loading } = useManagedDoc<SiteProfile>("profile", "profile", defaultProfile);
   return { profile: value, loading };
+}
+
+export function useProcessSteps() {
+  const { value, loading } = useManagedDoc<ProcessStep[]>("process", "items", defaultProcess, cleanProcess);
+  return { steps: value, loading };
+}
+
+export function useAbout() {
+  const { value, loading } = useManagedDoc<AboutContent>("about", "about", defaultAbout);
+  return { about: value, loading };
+}
+
+export function useJournal(publishedOnly = true) {
+  const { value, loading } = useManagedDoc<JournalArticle[]>("journal", "items", defaultJournal, cleanJournal);
+  const articles = publishedOnly ? value.filter((a) => a.status !== "draft") : value;
+  return { articles: articles.length ? articles : defaultJournal, loading };
+}
+
+export function useNavLinks() {
+  const { value, loading } = useManagedDoc<NavLink[]>("nav", "items", defaultNav, cleanLinks);
+  return { links: value, loading };
+}
+
+export function useFooter() {
+  const { value, loading } = useManagedDoc<FooterContent>("footer", "footer", defaultFooter);
+  return { footer: value, loading };
 }

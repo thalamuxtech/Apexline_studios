@@ -28,9 +28,13 @@ const NAV: NavGroup[] = [
     items: [
       { href: "/admin/projects", label: "Projects & Hero", Mark: MarkProjects },
       { href: "/admin/content/services", label: "Services", Mark: MarkServices },
+      { href: "/admin/content/process", label: "Process", Mark: MarkStats },
       { href: "/admin/content/testimonials", label: "Testimonials", Mark: MarkTestimonials },
+      { href: "/admin/content/journal", label: "Journal", Mark: MarkTestimonials },
+      { href: "/admin/content/about", label: "About / Studio", Mark: MarkProfile },
       { href: "/admin/content/stats", label: "Stats & Clients", Mark: MarkStats },
       { href: "/admin/content/profile", label: "Studio Profile", Mark: MarkProfile },
+      { href: "/admin/content/navigation", label: "Menu & Footer", Mark: MarkProjects },
     ],
   },
   {

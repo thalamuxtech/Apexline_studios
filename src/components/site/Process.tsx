@@ -1,7 +1,9 @@
-import { processSteps } from "@/content/site";
+"use client";
 import { Reveal } from "@/components/motion/Reveal";
+import { useProcessSteps } from "@/lib/useSiteContent";
 
 export function Process() {
+  const { steps: processSteps } = useProcessSteps();
   return (
     <section className="section bg-graphite text-bone relative overflow-hidden">
       <div className="absolute inset-0 blueprint-grid opacity-25" />
@@ -31,7 +33,7 @@ export function Process() {
 
         <ol className="grid gap-px bg-white/10 md:grid-cols-3 border-t border-b border-white/10">
           {processSteps.map((step, i) => (
-            <Reveal key={step.number} delay={i * 0.05}>
+            <Reveal key={i} delay={i * 0.05}>
               <li className="bg-graphite p-8 md:p-10 h-full">
                 <p className="font-mono text-xs text-gold">{step.number}</p>
                 <h3 className="mt-4 font-display text-2xl md:text-3xl">{step.title}</h3>

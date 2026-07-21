@@ -2,22 +2,49 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useMemo } from "react";
-import { ArrowRight, MapPin } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { ArrowRight, MapPin, Loader2 } from "lucide-react";
 import { Nav } from "@/components/site/Nav";
 import { Reveal } from "@/components/motion/Reveal";
 import { CtaBand } from "@/components/site/CtaBand";
 import { useManagedProjects } from "@/lib/useManagedProjects";
 import type { ManagedProject } from "@/lib/projects";
 
-export function ProjectDetailClient({ initialProject }: { initialProject: ManagedProject }) {
-  const { projects } = useManagedProjects();
+export function ProjectDetailClient({ initialProject }: { initialProject?: ManagedProject }) {
+  const { projects, loading } = useManagedProjects();
+  const [urlSlug, setUrlSlug] = useState(initialProject?.slug ?? "");
+
+  useEffect(() => {
+    if (initialProject) return;
+    const parts = window.location.pathname.split("/").filter(Boolean);
+    setUrlSlug(decodeURIComponent(parts[parts.length - 1] ?? ""));
+  }, [initialProject]);
+
+  const slug = initialProject?.slug || urlSlug;
   const project = useMemo(
-    () => projects.find((item) => item.slug === initialProject.slug) ?? initialProject,
-    [projects, initialProject],
+    () => projects.find((item) => item.slug === slug) ?? initialProject,
+    [projects, slug, initialProject],
   );
+
+  if (!project) {
+    return (
+      <>
+        <Nav variant="dark" />
+        {loading ? (
+          <div className="grid min-h-[70svh] place-items-center bg-onyx"><Loader2 className="h-6 w-6 animate-spin text-gold" /></div>
+        ) : (
+          <div className="container-apex flex min-h-[70svh] flex-col items-center justify-center gap-4 bg-onyx text-center text-bone">
+            <p className="eyebrow text-gold">Project not found</p>
+            <h1 className="font-display text-4xl">This project isn&rsquo;t available.</h1>
+            <Link href="/projects" className="btn-ghost mt-4">All projects</Link>
+          </div>
+        )}
+      </>
+    );
+  }
+
   const idx = Math.max(0, projects.findIndex((item) => item.slug === project.slug));
-  const next = projects[(idx + 1) % projects.length] ?? initialProject;
+  const next = projects[(idx + 1) % projects.length] ?? project;
 
   return (
     <>

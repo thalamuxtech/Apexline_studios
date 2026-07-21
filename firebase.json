@@ -6,6 +6,9 @@
     "cleanUrls": true,
     "trailingSlash": true,
     "rewrites": [
+      { "source": "/services/**", "destination": "/services/view/index.html" },
+      { "source": "/projects/**", "destination": "/projects/view/index.html" },
+      { "source": "/journal/**", "destination": "/journal/view/index.html" },
       { "source": "**", "destination": "/404.html" }
     ],
     "headers": [
