@@ -14,6 +14,32 @@ export const projectFallbacks: ManagedProject[] = projects.map((project) => ({
   status: "published",
 }));
 
+export function slugify(input: string): string {
+  return input
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 60);
+}
+
+export function blankProject(): ManagedProject {
+  return normalizeProject({
+    slug: "",
+    name: "",
+    sector: "",
+    year: new Date().getFullYear(),
+    location: "",
+    client: "",
+    scope: "",
+    brief: "",
+    cover: "",
+    gallery: [],
+    featured: false,
+    status: "draft",
+  });
+}
+
 export function normalizeProject(project: ProjectFormData): ManagedProject {
   const year = typeof project.year === "string" ? Number(project.year) : project.year;
   return {
