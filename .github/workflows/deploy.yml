@@ -18,15 +18,31 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
 
-      # Full deploy: hosting (with headers + rewrites), Firestore rules &
-      # indexes, and Storage rules — the hosting-only action deployed none of
-      # the rules/config, so security rules and rewrites never reached prod.
-      - name: Deploy Hosting + Firestore + Storage
+      # Hosting (with headers + rewrites from firebase.json). This is the
+      # critical path and must always succeed.
+      - name: Deploy Hosting
         run: |
           echo "$FIREBASE_SERVICE_ACCOUNT" > "$RUNNER_TEMP/sa.json"
           export GOOGLE_APPLICATION_CREDENTIALS="$RUNNER_TEMP/sa.json"
           npx --yes firebase-tools@13 deploy \
-            --only hosting,firestore:rules,firestore:indexes,storage \
+            --only hosting \
+            --project apexline-studios \
+            --non-interactive --force
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_APEXLINE }}
+
+      # Security rules + indexes. Requires the service account to have the
+      # Firebase Rules Admin / Cloud Datastore + Storage roles. Non-blocking
+      # until those IAM roles are granted, so a missing permission does not
+      # break the hosting deploy above. Watch this step's log — once it turns
+      # green the hardened rules are live.
+      - name: Deploy Firestore & Storage rules
+        continue-on-error: true
+        run: |
+          echo "$FIREBASE_SERVICE_ACCOUNT" > "$RUNNER_TEMP/sa.json"
+          export GOOGLE_APPLICATION_CREDENTIALS="$RUNNER_TEMP/sa.json"
+          npx --yes firebase-tools@13 deploy \
+            --only firestore:rules,firestore:indexes,storage \
             --project apexline-studios \
             --non-interactive --force
         env:
