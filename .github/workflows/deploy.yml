@@ -1,4 +1,5 @@
 name: Deploy to Firebase Hosting
+
 on:
   push:
     branches: [main]
@@ -16,9 +17,17 @@ jobs:
           version: 9
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
-      - uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_APEXLINE }}
-          channelId: live
-          projectId: apexline-studios
+
+      # Full deploy: hosting (with headers + rewrites), Firestore rules &
+      # indexes, and Storage rules — the hosting-only action deployed none of
+      # the rules/config, so security rules and rewrites never reached prod.
+      - name: Deploy Hosting + Firestore + Storage
+        run: |
+          echo "$FIREBASE_SERVICE_ACCOUNT" > "$RUNNER_TEMP/sa.json"
+          export GOOGLE_APPLICATION_CREDENTIALS="$RUNNER_TEMP/sa.json"
+          npx --yes firebase-tools@13 deploy \
+            --only hosting,firestore:rules,firestore:indexes,storage \
+            --project apexline-studios \
+            --non-interactive --force
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_APEXLINE }}
