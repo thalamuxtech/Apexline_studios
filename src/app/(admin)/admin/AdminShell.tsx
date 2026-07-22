@@ -96,7 +96,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
 
   const email = state.user.email;
 
-  const Sidebar = (
+  const renderSidebar = (idPrefix: string) => (
     <div className="flex h-full flex-col bg-graphite text-bone">
       <Link
         href="/"
@@ -126,13 +126,13 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
                   >
                     {active && (
                       <motion.span
-                        layoutId="nav-active"
-                        className="absolute inset-0 border border-gold/30 bg-gold/10"
+                        layoutId={`${idPrefix}-nav-active`}
+                        className="pointer-events-none absolute inset-0 border border-gold/30 bg-gold/10"
                         transition={{ type: "spring", stiffness: 400, damping: 34 }}
                       />
                     )}
-                    <span className="relative z-10 shrink-0"><item.Mark size={24} /></span>
-                    <span className="relative z-10 whitespace-nowrap">{item.label}</span>
+                    <span className="pointer-events-none relative z-10 shrink-0"><item.Mark size={24} /></span>
+                    <span className="pointer-events-none relative z-10 whitespace-nowrap">{item.label}</span>
                   </Link>
                 );
               })}
@@ -162,7 +162,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
         <div className="lg:flex">
           {/* Desktop sidebar */}
           <aside className="hidden lg:sticky lg:top-0 lg:block lg:h-screen lg:w-72 lg:shrink-0 lg:border-r lg:border-white/10">
-            {Sidebar}
+            {renderSidebar("desktop")}
           </aside>
 
           {/* Mobile drawer */}
@@ -186,7 +186,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
                   >
                     <X className="h-5 w-5" />
                   </button>
-                  {Sidebar}
+                  {renderSidebar("mobile")}
                 </motion.div>
               </div>
             )}
