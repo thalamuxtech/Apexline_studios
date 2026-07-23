@@ -12,7 +12,7 @@ export function Hero() {
   const { slides } = useHeroSlides();
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 500], [0, 80]);
-  const opacity = useTransform(scrollY, [0, 400], [1, 0.3]);
+  const opacity = useTransform(scrollY, [0, 500], [1, 0.75]);
 
   useEffect(() => {
     const count = slides.length || fallbackHeroSlides.length;
@@ -30,8 +30,8 @@ export function Hero() {
         <AnimatePresence mode="sync">
           <motion.div
             key={plate.src}
-            initial={{ opacity: 0, scale: 1.08 }}
-            animate={{ opacity: 1, scale: 1.02 }}
+            initial={{ opacity: 0, scale: 1.04 }}
+            animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
             className="absolute inset-0"
@@ -39,10 +39,10 @@ export function Hero() {
             <Image src={plate.src} alt="" fill priority sizes="100vw" className="object-cover object-center" />
           </motion.div>
         </AnimatePresence>
-        {/* Layered gradients for legibility */}
-        <div className="absolute inset-0 bg-gradient-to-b from-onyx/80 via-onyx/40 to-onyx/95" />
-        <div className="absolute inset-0 bg-gradient-to-r from-onyx/70 via-transparent to-onyx/40" />
-        <div className="absolute inset-0 blueprint-grid opacity-20 mix-blend-overlay" />
+        {/* Layered gradients — lighter, tuned for legibility without washing out the image */}
+        <div className="absolute inset-0 bg-gradient-to-b from-onyx/45 via-onyx/10 to-onyx/85" />
+        <div className="absolute inset-0 bg-gradient-to-r from-onyx/50 via-transparent to-transparent" />
+        <div className="absolute inset-0 blueprint-grid opacity-10 mix-blend-overlay" />
       </motion.div>
 
       {/* Vertical frame rules */}
