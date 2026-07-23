@@ -1,5 +1,4 @@
 "use client";
-import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -98,7 +97,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
 
   const renderSidebar = (idPrefix: string) => (
     <div className="flex min-h-full flex-col bg-graphite text-bone">
-      <Link
+      <a
         href="/"
         aria-label="Visit public site"
         className="group flex items-center gap-3 border-b border-white/10 px-6 py-6 transition-colors hover:bg-white/5"
@@ -107,7 +106,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
         <span className="ml-auto flex items-center gap-1 self-end pb-1 text-[10px] uppercase tracking-[0.24em] text-gold">
           Admin
         </span>
-      </Link>
+      </a>
 
       <nav className="px-3 py-6">
         {NAV.map((section) => (
@@ -116,8 +115,13 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
             <div className="space-y-0.5">
               {section.items.map((item) => {
                 const active = isActive(pathname, item.href);
+                // Plain anchors (hard navigation): the client RSC router fails
+                // to parse the .txt payloads on this static export
+                // ("e[o] is not a function"), which broke soft navigation.
+                // The admin panel is client-rendered + auth-gated, so a full
+                // page load per click is reliable and imperceptible.
                 return (
-                  <Link
+                  <a
                     key={item.href}
                     href={item.href}
                     className={`group relative flex items-center gap-3 px-3 py-2.5 text-sm transition-colors ${
@@ -133,7 +137,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
                     )}
                     <span className="pointer-events-none relative z-10 shrink-0"><item.Mark size={24} /></span>
                     <span className="pointer-events-none relative z-10 whitespace-nowrap">{item.label}</span>
-                  </Link>
+                  </a>
                 );
               })}
             </div>
@@ -145,9 +149,9 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
         <p className="mb-1 text-[10px] uppercase tracking-[0.2em] text-bone/40">Signed in as</p>
         <p className="mb-4 truncate text-sm">{email}</p>
         <div className="flex items-center justify-between">
-          <Link href="/" className="inline-flex items-center gap-1.5 text-[10px] uppercase tracking-[0.18em] text-bone/60 hover:text-gold">
+          <a href="/" className="inline-flex items-center gap-1.5 text-[10px] uppercase tracking-[0.18em] text-bone/60 hover:text-gold">
             <ExternalLink className="h-3.5 w-3.5" /> View site
-          </Link>
+          </a>
           <button onClick={() => signOutAdmin()} className="inline-flex items-center gap-1.5 text-[10px] uppercase tracking-[0.18em] text-bone/60 hover:text-gold">
             <LogOut className="h-3.5 w-3.5" /> Sign out
           </button>
