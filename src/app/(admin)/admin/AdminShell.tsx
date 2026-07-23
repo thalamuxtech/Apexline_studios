@@ -97,7 +97,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
   const email = state.user.email;
 
   const renderSidebar = (idPrefix: string) => (
-    <div className="flex h-full flex-col bg-graphite text-bone">
+    <div className="flex min-h-full flex-col bg-graphite text-bone">
       <Link
         href="/"
         aria-label="Visit public site"
@@ -109,7 +109,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
         </span>
       </Link>
 
-      <nav className="flex-1 overflow-y-auto px-3 py-6">
+      <nav className="px-3 py-6">
         {NAV.map((section) => (
           <div key={section.group} className="mb-6">
             <p className="px-3 pb-2 text-[9px] uppercase tracking-[0.28em] text-bone/35">{section.group}</p>
@@ -141,7 +141,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
         ))}
       </nav>
 
-      <div className="border-t border-white/10 px-5 py-5">
+      <div className="mt-auto border-t border-white/10 px-5 py-5">
         <p className="mb-1 text-[10px] uppercase tracking-[0.2em] text-bone/40">Signed in as</p>
         <p className="mb-4 truncate text-sm">{email}</p>
         <div className="flex items-center justify-between">
@@ -161,7 +161,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
       <div className="min-h-screen bg-bone text-onyx">
         <div className="lg:flex">
           {/* Desktop sidebar */}
-          <aside className="hidden lg:sticky lg:top-0 lg:block lg:h-screen lg:w-72 lg:shrink-0 lg:border-r lg:border-white/10">
+          <aside className="hidden lg:sticky lg:top-0 lg:block lg:h-screen lg:w-72 lg:shrink-0 lg:overflow-y-auto lg:border-r lg:border-white/10">
             {renderSidebar("desktop")}
           </aside>
 
@@ -177,7 +177,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
                 <motion.div
                   initial={{ x: "-100%" }} animate={{ x: 0 }} exit={{ x: "-100%" }}
                   transition={{ type: "spring", stiffness: 400, damping: 40 }}
-                  className="absolute inset-y-0 left-0 w-72 max-w-[82vw] shadow-2xl"
+                  className="absolute inset-y-0 left-0 w-72 max-w-[82vw] overflow-y-auto shadow-2xl"
                 >
                   <button
                     onClick={() => setMobileOpen(false)}
